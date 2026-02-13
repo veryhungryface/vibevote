@@ -192,5 +192,13 @@ export const projects: Project[] = [
     tool: "manus",
     description: "학생이 스스로 문제를 해결할 수 있도록 사고의 흐름을 가이드하는 AI 튜터",
     link: "https://thinkmathai-umxskqgv.manus.space/"
+  },
+  {
+    id: 24,
+    author: "남용수(수학서비스팀)",
+    name: "ContextFlow 2",
+    tool: "미상",
+    description: "지식 graph로 시각화 해주는 AI 기반 지식 통합 플랫폼 Ver.2",
+    link: "https://d1vav1wc0z90-d.space.z.ai/"
   }
 ];
