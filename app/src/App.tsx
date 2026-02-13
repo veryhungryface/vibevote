@@ -152,15 +152,21 @@ function App() {
                 value={voterName}
                 onChange={handleNameChangeInHeader}
                 placeholder="이름을 입력하세요"
+                disabled={votedProjectIds.length > 0}
+                readOnly={votedProjectIds.length > 0}
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: 'white',
+                  color: votedProjectIds.length > 0 ? 'var(--text-muted)' : 'white',
                   fontSize: '0.9rem',
                   outline: 'none',
-                  width: '120px'
+                  width: '120px',
+                  cursor: votedProjectIds.length > 0 ? 'not-allowed' : 'text'
                 }}
               />
+              {votedProjectIds.length > 0 && (
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>🔒</span>
+              )}
             </div>
           </div>
 
