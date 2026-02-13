@@ -23,7 +23,7 @@ export const submitVote = async (vote: VotePayload) => {
         }
 
         // 3. Check if vote limit reached
-        if (userVotes && userVotes.length >= 3) {
+        if (userVotes && userVotes.length >= 5) {
             throw new Error('VOTE_LIMIT_REACHED');
         }
 

@@ -139,9 +139,9 @@ export const VoterListModal: React.FC<VoterListModalProps> = ({ isOpen, onClose 
                                             borderRadius: '8px',
                                             fontSize: '0.8rem',
                                             fontWeight: '700',
-                                            color: voter.count >= 3 ? '#10b981' : 'var(--text-secondary)'
+                                            color: voter.count >= 5 ? '#10b981' : 'var(--text-secondary)'
                                         }}>
-                                            {voter.count}/3
+                                            {voter.count}/5
                                         </span>
                                     </div>
                                 </motion.div>

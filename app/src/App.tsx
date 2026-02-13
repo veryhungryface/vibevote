@@ -89,8 +89,8 @@ function App() {
       return;
     }
 
-    if (votedProjectIds.length >= 3) {
-      alert("최대 3표까지만 투표할 수 있습니다.");
+    if (votedProjectIds.length >= 5) {
+      alert("최대 5표까지만 투표할 수 있습니다.");
       return;
     }
 
@@ -109,7 +109,7 @@ function App() {
     } catch (e) {
       const msg = (e as Error).message;
       if (msg === 'VOTE_LIMIT_REACHED') {
-        alert("이미 3표를 모두 행사하셨습니다.");
+        alert("이미 5표를 모두 행사하셨습니다.");
       } else if (msg === 'ALREADY_VOTED_FOR_PROJECT') {
         alert("이미 투표한 작품입니다.");
       } else {
@@ -189,7 +189,7 @@ function App() {
             <div style={{ display: 'flex', gap: '1.5rem', color: 'var(--text-secondary)' }}>
               <span className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <CheckCircle2 size={14} color="#10b981" />
-                1인당 총 3표
+                1인당 총 5표
               </span>
               <span className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <CheckCircle2 size={14} color="#10b981" />
@@ -197,7 +197,7 @@ function App() {
               </span>
               <span className="mobile-only" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem' }}>
                 <CheckCircle2 size={14} color="#10b981" />
-                1인 3표 / 중복 불가
+                1인 5표 / 중복 불가
               </span>
             </div>
 
@@ -243,14 +243,14 @@ function App() {
                 {sortBy === 'author' ? '이름순' : '득표순'}
               </button>
               <div style={{ fontWeight: '700', color: 'var(--primary)', whiteSpace: 'nowrap', marginLeft: '0.5rem' }}>
-                <span style={{ color: 'white' }}>{votedProjectIds.length}/3</span>
+                <span style={{ color: 'white' }}>{votedProjectIds.length}/5</span>
               </div>
             </div>
 
             {/* Mobile Menu Toggle & Count */}
             <div className="mobile-only" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <div style={{ fontWeight: '700', color: 'white', whiteSpace: 'nowrap' }}>
-                {votedProjectIds.length}/3
+                {votedProjectIds.length}/5
               </div>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
