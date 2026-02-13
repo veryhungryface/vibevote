@@ -7,7 +7,7 @@ import { VoterListModal } from './components/VoterListModal';
 import { VoteStatusModal } from './components/VoteStatusModal';
 import { submitVote, getVoteCounts, getUserVotes, cancelVote } from './services/voteService';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, User, CheckCircle2, Users, ArrowUpDown, BarChart3 } from 'lucide-react';
+import { Trophy, User, CheckCircle2, Users, ArrowUpDown, BarChart3, Menu, X } from 'lucide-react';
 import './App.css';
 
 function App() {
@@ -20,6 +20,7 @@ function App() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isVoterListOpen, setIsVoterListOpen] = useState(false);
   const [isVoteStatusOpen, setIsVoteStatusOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [sortBy, setSortBy] = useState<'author' | 'votes'>('author');
 
   const sortedProjects = [...projects].sort((a, b) => {
@@ -186,90 +187,132 @@ function App() {
             borderRadius: '10px'
           }}>
             <div style={{ display: 'flex', gap: '1.5rem', color: 'var(--text-secondary)' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <CheckCircle2 size={14} color="#10b981" />
                 1인당 총 3표
               </span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <CheckCircle2 size={14} color="#10b981" />
                 중복 투표 불가(카드당 1회)
               </span>
+              <span className="mobile-only" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem' }}>
+                <CheckCircle2 size={14} color="#10b981" />
+                1인 3표 / 중복 불가
+              </span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+
+            {/* Desktop Menu */}
+            <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <button
                 onClick={() => setIsVoteStatusOpen(true)}
+                className="header-btn"
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: 'var(--text-secondary)',
-                  padding: '4px 12px',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  fontSize: '0.8rem',
-                  fontWeight: '600',
-                  whiteSpace: 'nowrap',
-                  transition: 'all 0.2s'
+                  display: 'flex', alignItems: 'center', gap: '6px',
+                  background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                  color: 'var(--text-secondary)', padding: '4px 12px', borderRadius: '8px',
+                  cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', whiteSpace: 'nowrap', transition: 'all 0.2s'
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'white'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
               >
                 <BarChart3 size={14} />
-                투표 현황
+                현황
               </button>
               <button
                 onClick={() => setIsVoterListOpen(true)}
+                className="header-btn"
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: 'var(--text-secondary)',
-                  padding: '4px 12px',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  fontSize: '0.8rem',
-                  fontWeight: '600',
-                  whiteSpace: 'nowrap',
-                  transition: 'all 0.2s'
+                  display: 'flex', alignItems: 'center', gap: '6px',
+                  background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                  color: 'var(--text-secondary)', padding: '4px 12px', borderRadius: '8px',
+                  cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', whiteSpace: 'nowrap', transition: 'all 0.2s'
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'white'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
               >
                 <Users size={14} />
-                투표자 리스트
+                리스트
               </button>
               <button
                 onClick={() => setSortBy(prev => prev === 'author' ? 'votes' : 'author')}
+                className="header-btn"
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: 'var(--text-secondary)',
-                  padding: '4px 12px',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  fontSize: '0.8rem',
-                  fontWeight: '600',
-                  whiteSpace: 'nowrap',
-                  transition: 'all 0.2s'
+                  display: 'flex', alignItems: 'center', gap: '6px',
+                  background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                  color: 'var(--text-secondary)', padding: '4px 12px', borderRadius: '8px',
+                  cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', whiteSpace: 'nowrap', transition: 'all 0.2s'
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'white'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
               >
                 <ArrowUpDown size={14} />
                 {sortBy === 'author' ? '이름순' : '득표순'}
               </button>
-              <div style={{ fontWeight: '700', color: 'var(--primary)', whiteSpace: 'nowrap' }}>
-                나의 투표: <span style={{ color: 'white' }}>{votedProjectIds.length}/3</span>
+              <div style={{ fontWeight: '700', color: 'var(--primary)', whiteSpace: 'nowrap', marginLeft: '0.5rem' }}>
+                <span style={{ color: 'white' }}>{votedProjectIds.length}/3</span>
               </div>
             </div>
+
+            {/* Mobile Menu Toggle & Count */}
+            <div className="mobile-only" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <div style={{ fontWeight: '700', color: 'white', whiteSpace: 'nowrap' }}>
+                {votedProjectIds.length}/3
+              </div>
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                style={{
+                  background: 'transparent', border: 'none', color: 'white',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
+
+          {/* Mobile Dropdown Menu */}
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="mobile-only glass-panel"
+                style={{
+                  position: 'absolute', top: '100%', right: '1rem',
+                  marginTop: '0.5rem', padding: '1rem',
+                  display: 'flex', flexDirection: 'column', gap: '0.8rem',
+                  border: '1px solid rgba(255,255,255,0.1)', zIndex: 1000,
+                  width: '200px'
+                }}
+              >
+                <button
+                  onClick={() => { setIsVoteStatusOpen(true); setIsMobileMenuOpen(false); }}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '10px',
+                    background: 'transparent', border: 'none', color: 'white',
+                    fontSize: '1rem', textAlign: 'left', width: '100%'
+                  }}
+                >
+                  <BarChart3 size={18} /> 투표 현황
+                </button>
+                <button
+                  onClick={() => { setIsVoterListOpen(true); setIsMobileMenuOpen(false); }}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '10px',
+                    background: 'transparent', border: 'none', color: 'white',
+                    fontSize: '1rem', textAlign: 'left', width: '100%'
+                  }}
+                >
+                  <Users size={18} /> 투표자 리스트
+                </button>
+                <button
+                  onClick={() => { setSortBy(prev => prev === 'author' ? 'votes' : 'author'); setIsMobileMenuOpen(false); }}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '10px',
+                    background: 'transparent', border: 'none', color: 'white',
+                    fontSize: '1rem', textAlign: 'left', width: '100%'
+                  }}
+                >
+                  <ArrowUpDown size={18} /> {sortBy === 'author' ? '이름순 정렬' : '득표순 정렬'}
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </header>
 
@@ -344,7 +387,7 @@ function App() {
         onClose={() => setIsVoteStatusOpen(false)}
         voteCounts={voteCounts}
       />
-    </div>
+    </div >
   );
 }
 

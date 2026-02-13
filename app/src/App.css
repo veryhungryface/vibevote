@@ -1,1 +1,41 @@
-/* Empty */
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none !important;
+    }
+
+    .desktop-flex {
+        display: flex !important;
+    }
+
+    .desktop-inline {
+        display: inline !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    .mobile-flex {
+        display: flex !important;
+    }
+
+    .mobile-block {
+        display: block !important;
+    }
+
+    .header-content {
+        flex-wrap: wrap;
+    }
+
+    .header-title-section {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .header-name-section {
+        width: 100%;
+        justify-content: space-between !important;
+    }
+}
