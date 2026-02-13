@@ -4,9 +4,10 @@ import { projects, type Project } from './data/projects';
 import { ProjectCard } from './components/ProjectCard';
 import { NameModal } from './components/NameModal';
 import { VoterListModal } from './components/VoterListModal';
+import { VoteStatusModal } from './components/VoteStatusModal';
 import { submitVote, getVoteCounts, getUserVotes, cancelVote } from './services/voteService';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, User, CheckCircle2, Users } from 'lucide-react';
+import { Trophy, User, CheckCircle2, Users, ArrowUpDown, BarChart3 } from 'lucide-react';
 import './App.css';
 
 function App() {
@@ -18,10 +19,15 @@ function App() {
   const [voteCounts, setVoteCounts] = useState<Record<string, number>>({});
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isVoterListOpen, setIsVoterListOpen] = useState(false);
+  const [isVoteStatusOpen, setIsVoteStatusOpen] = useState(false);
+  const [sortBy, setSortBy] = useState<'author' | 'votes'>('author');
 
-  const sortedProjects = [...projects].sort((a, b) =>
-    a.author.localeCompare(b.author, 'ko')
-  );
+  const sortedProjects = [...projects].sort((a, b) => {
+    if (sortBy === 'votes') {
+      return (voteCounts[b.id] || 0) - (voteCounts[a.id] || 0);
+    }
+    return a.author.localeCompare(b.author, 'ko');
+  });
 
   const fetchGlobalCounts = async () => {
     const counts = await getVoteCounts();
@@ -189,7 +195,30 @@ function App() {
                 중복 투표 불가(카드당 1회)
               </span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <button
+                onClick={() => setIsVoteStatusOpen(true)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  color: 'var(--text-secondary)',
+                  padding: '4px 12px',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '0.8rem',
+                  fontWeight: '600',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'white'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
+              >
+                <BarChart3 size={14} />
+                투표 현황
+              </button>
               <button
                 onClick={() => setIsVoterListOpen(true)}
                 style={{
@@ -212,6 +241,29 @@ function App() {
               >
                 <Users size={14} />
                 투표자 리스트
+              </button>
+              <button
+                onClick={() => setSortBy(prev => prev === 'author' ? 'votes' : 'author')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  color: 'var(--text-secondary)',
+                  padding: '4px 12px',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '0.8rem',
+                  fontWeight: '600',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'white'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
+              >
+                <ArrowUpDown size={14} />
+                {sortBy === 'author' ? '이름순' : '득표순'}
               </button>
               <div style={{ fontWeight: '700', color: 'var(--primary)', whiteSpace: 'nowrap' }}>
                 나의 투표: <span style={{ color: 'white' }}>{votedProjectIds.length}/3</span>
@@ -286,6 +338,11 @@ function App() {
       <VoterListModal
         isOpen={isVoterListOpen}
         onClose={() => setIsVoterListOpen(false)}
+      />
+      <VoteStatusModal
+        isOpen={isVoteStatusOpen}
+        onClose={() => setIsVoteStatusOpen(false)}
+        voteCounts={voteCounts}
       />
     </div>
   );
